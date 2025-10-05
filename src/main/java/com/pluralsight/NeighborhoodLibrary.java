@@ -1,10 +1,13 @@
 package com.pluralsight;
 
+import java.util.Objects;
 import java.util.Scanner;
 
 public class NeighborhoodLibrary {
 
     public static Scanner input = new Scanner(System.in);
+
+    public static int currentBookCount = 0;
 
     public static void main(String[] args) {
 
@@ -28,6 +31,12 @@ public class NeighborhoodLibrary {
         new Book(10016, "978-0-618-08770-3", "Dracula", false, "");
         new Book(10017, "978-0-14-118776-1", "Heart of Darkness", true, "Eva");
 
+        for (int i = 0; i < library.length; i++) {
+            if (Objects.equals(library[i].getTitle(), "")) {
+                currentBookCount += 1;
+            }
+        }
+
         boolean isRunning = true;
 
         while (isRunning) {
@@ -38,7 +47,7 @@ public class NeighborhoodLibrary {
                     What would you like to do?
                     (1) Show all available books
                     (2) Show all checked out books
-                    (3) Search by ID
+                    (3) Check in a book
                     (4) Search by title
                     (5) Donate a book
                     (6) Quit
@@ -52,16 +61,16 @@ public class NeighborhoodLibrary {
             // all cases will lead to other methods
             switch (option) {
                 case 1:
-                    listAllBooks(library);
+                    listAvailableBooks(library);
                     break;
                 case 2:
                     searchByIsCheckedOut(library);
                     break;
                 case 3:
-                    searchByID(library);
+                    checkInBook(library);
                     break;
                 case 4:
-                    searchBytitle(library);
+                    searchByTitle(library);
                     break;
                 case 5:
                     donateBook(library);
@@ -75,14 +84,42 @@ public class NeighborhoodLibrary {
 
         }
 
+    }
 
+    public static void printBookInfo(Book book) {
+
+        System.out.printf("%s (ID: %d, ISBN: %s, %b\n",
+                book.getTitle(), book.getId(), book.getIsbn(), book.isCheckedOut());
+
+    }
+
+    public static void listAvailableBooks(Book[] library) {
+
+        System.out.println("Here are all the books in the library: ");
+        for (int i = 0; i < currentBookCount; i++) {
+            System.out.printf("Book #%d. ", i + 1);
+            printBookInfo(library[i]);
+        }
 
 
 
 
     }
 
+    public static void searchByIsCheckedOut(Book[] library) {
 
+        for (int i = 0; i < currentBookCount; i++) {
+            if (!library[i].isCheckedOut()) {
+                printBookInfo(library[i]);
+            }
+        }
+
+
+
+
+
+
+    }
 
 
 }
