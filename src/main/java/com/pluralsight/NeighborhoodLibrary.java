@@ -88,7 +88,7 @@ public class NeighborhoodLibrary {
 
     public static void printBookInfo(Book book) {
 
-        System.out.printf("%s (ID: %d, ISBN: %s, %b\n",
+        System.out.printf("%s (ID: %d, ISBN: %s, Checked out status: %b\n",
                 book.getTitle(), book.getId(), book.getIsbn(), book.isCheckedOut());
 
     }
@@ -115,17 +115,28 @@ public class NeighborhoodLibrary {
             input.nextLine();
 
             if (option == 1) {
-                System.out.println("Which book would you like to check out?");
+                System.out.println("What is the ID of the book you want to check out?");
                 int checkOutId = input.nextInt();
-
+                input.nextLine();
+                if (library[checkOutId-10001].isCheckedOut()) {
+                    System.out.println("That book is not available.");
+                }
+                else if (library[checkOutId-10001].getTitle() == null || checkOutId > 10030) {
+                    System.out.println("This book does not exist in our system.");
+                }
+                else {
+                    System.out.println("What is your name?");
+                    String checkOutName = input.nextLine();
+                    library[checkOutId-10001].checkOut(checkOutName);
+                    System.out.println("You have checked out " + library[checkOutId-10001].getTitle());
+                }
             }
+
             else {
                 System.out.println("EXITING TO MAIN MENU...");
                 isRunning = false;
             }
         }
-
-
 
     }
 
