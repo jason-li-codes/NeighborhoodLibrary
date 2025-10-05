@@ -93,6 +93,13 @@ public class NeighborhoodLibrary {
 
     }
 
+    public static void printBookInfoWithName(Book book) {
+
+        System.out.printf("%s (ID: %d, ISBN: %s, Checked out by: %s",
+                book.getTitle(), book.getId(), book.getIsbn(), book.getCheckedOutTo());
+
+    }
+
     public static void listAvailableBooks(Book[] library) {
 
         System.out.println("Here are all the books in the library: ");
@@ -143,8 +150,8 @@ public class NeighborhoodLibrary {
     public static void searchByIsCheckedOut(Book[] library) {
 
         for (int i = 0; i < currentBookCount; i++) {
-            if (!library[i].isCheckedOut()) {
-                printBookInfo(library[i]);
+            if (library[i].isCheckedOut()) {
+                printBookInfoWithName(library[i]);
             }
         }
 
@@ -155,5 +162,22 @@ public class NeighborhoodLibrary {
 
     }
 
+    public static void searchByTitle(Book[] library) {
+
+        // prompts user
+        System.out.println("What is the title of the book you're looking for?");
+        String searchTitle = input.nextLine();
+
+        // uses for loop to check
+        System.out.println("Here are books matching that title:");
+        for (int i = 0; i < currentBookCount; i++) {
+            Book book = library[i];
+            // checks
+            if (book.getTitle().toLowerCase().contains(searchTitle.toLowerCase())) {
+                printBookInfo(book);
+            }
+        }
+
+    }
 
 }
