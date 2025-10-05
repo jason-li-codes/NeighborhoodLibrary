@@ -101,6 +101,29 @@ public class NeighborhoodLibrary {
             printBookInfo(library[i]);
         }
 
+        boolean isRunning = true;
+
+        while (isRunning) {
+
+            System.out.println("""
+                What would you like to do?
+                (1) Check out a book
+                (2) Exit to main menu
+                """);
+
+            int option = input.nextInt();
+            input.nextLine();
+
+            if (option == 1) {
+                System.out.println("Which book would you like to check out?");
+                int checkOutId = input.nextInt();
+
+            }
+            else {
+                System.out.println("EXITING TO MAIN MENU...");
+                isRunning = false;
+            }
+        }
 
 
 
