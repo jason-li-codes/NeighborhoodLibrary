@@ -4,14 +4,16 @@ import java.util.Scanner;
 
 public class NeighborhoodLibrary {
 
+    // creates public scanner to avoid scanner as argument for methods
     public static Scanner input = new Scanner(System.in);
 
+    // initializes currentBookCount to keep track of the library's books
     public static int currentBookCount = 0;
 
     public static void main(String[] args) {
 
+        // creates book array and adds initial books
         Book[] library = new Book[30];
-
         library[0] = new Book(10001, "978-3-16-148410-0", "The Great Gatsby", false, "");
         library[1] = new Book(10002, "978-0-7432-7356-5", "1984", false, "");
         library[2] = new Book(10003, "978-0-452-28423-4", "To Kill a Mockingbird", false, "");
@@ -30,6 +32,7 @@ public class NeighborhoodLibrary {
         library[15] = new Book(10016, "978-0-618-08770-3", "Dracula", false, "");
         library[16] = new Book(10017, "978-0-14-118776-1", "Heart of Darkness", true, "Harman");
 
+        // uses for loop to count every non-null book in library to get accurate currentBookCount
         for (Book book : library) {
             if (book != null) {
                 currentBookCount += 1;
@@ -38,6 +41,7 @@ public class NeighborhoodLibrary {
 
         System.out.println("THE LIBRARY IS OPEN.");
 
+        // uses while loop with isRunning boolean to keep the menu open until the user decides to exit
         boolean isRunning = true;
 
         while (isRunning) {
@@ -57,8 +61,7 @@ public class NeighborhoodLibrary {
             int option = input.nextInt();
             input.nextLine();
 
-            // switch statement to choose through all the options, which lead to different methods
-            // all cases will lead to other methods
+            // switch statement to choose through all the options, which all lead to different methods
             switch (option) {
                 case 1:
                     listAvailableBooks(library);
@@ -86,6 +89,7 @@ public class NeighborhoodLibrary {
 
     }
 
+    // reusable method for printing book info with checked out status
     public static void printBookInfo(Book book) {
 
         System.out.printf("%s (ID: %d, ISBN: %s, Checked out status: %b)\n",
@@ -93,6 +97,7 @@ public class NeighborhoodLibrary {
 
     }
 
+    // reusable method for printing book info with borrower's name
     public static void printBookInfoWithBorrower(Book book) {
 
         System.out.printf("%s (ID: %d, ISBN: %s, Checked out by: %s\n",
@@ -100,8 +105,10 @@ public class NeighborhoodLibrary {
 
     }
 
+    // option 1
     public static void listAvailableBooks(Book[] library) {
 
+        // prints all available books by checking isCheckedOut of each book
         System.out.println("Here are all the books in the library: ");
         for (int i = 0; i < currentBookCount; i++) {
             if (!library[i].isCheckedOut()) {
@@ -109,6 +116,7 @@ public class NeighborhoodLibrary {
             }
         }
 
+        // new while loop with isRunning boolean for checking out a book
         boolean isRunning = true;
 
         while (isRunning) {
@@ -119,9 +127,11 @@ public class NeighborhoodLibrary {
                 (2) Exit to main menu
                 """);
 
+            // takes user input for book ID, with an additional line to eat the buffer
             int option = input.nextInt();
             input.nextLine();
 
+            // if statement checks if ID is in the system, used by system, or is for a book that is available
             if (option == 1) {
                 System.out.println("What is the ID of the book you want to check out?");
                 int checkOutId = input.nextInt();
@@ -132,6 +142,7 @@ public class NeighborhoodLibrary {
                 else if (library[checkOutId-10001].isCheckedOut()) {
                     System.out.println("That book is not available.");
                 }
+                // if book ID is valid, asks for name and calls checkOut method from Book class
                 else {
                     System.out.println("What is your name?");
                     String checkOutName = input.nextLine();
@@ -139,7 +150,7 @@ public class NeighborhoodLibrary {
                     System.out.println("You have checked out " + library[checkOutId-10001].getTitle());
                 }
             }
-
+            // exits submenu back to main menu by declaring isRunning false
             else {
                 System.out.println("EXITING TO MAIN MENU...");
                 isRunning = false;
@@ -148,8 +159,10 @@ public class NeighborhoodLibrary {
 
     }
 
+    // searches for checked out books
     public static void searchByIsCheckedOut(Book[] library) {
 
+        // uses for loop to check for books that are checked out by using isCheckedOut() getter
         System.out.println("Here are all the books in the library that are checked out: ");
         for (int i = 0; i < currentBookCount; i++) {
             if (library[i].isCheckedOut()) {
@@ -157,12 +170,15 @@ public class NeighborhoodLibrary {
             }
         }
 
+        // calls checkInBook method to check in books
         checkInBook(library);
 
     }
 
+    // checks in books
     public static void checkInBook(Book[] library) {
 
+        // new while loop with isRunning boolean for checking out a book
         boolean isRunning = true;
 
         while (isRunning) {
@@ -176,6 +192,7 @@ public class NeighborhoodLibrary {
             int option = input.nextInt();
             input.nextLine();
 
+            // if statement checks if ID is in the system, used by system, or is for a book that is available
             if (option == 1) {
                 System.out.println("What is the ID of the book you want to check in?");
                 int checkInId = input.nextInt();
@@ -186,12 +203,13 @@ public class NeighborhoodLibrary {
                 else if (!library[checkInId -10001].isCheckedOut()) {
                     System.out.println("That book is not checked out.");
                 }
+                // if book ID is valid, calls checkIn method from Book class
                 else {
                     library[checkInId -10001].checkIn();
                     System.out.println("You have checked in " + library[checkInId -10001].getTitle());
                 }
             }
-
+            // exits submenu back to main menu by declaring isRunning false
             else {
                 System.out.println("EXITING TO MAIN MENU...");
                 isRunning = false;
@@ -200,17 +218,17 @@ public class NeighborhoodLibrary {
 
     }
 
+    // searches for books by title
     public static void searchByTitle(Book[] library) {
 
-        // prompts user
+        // prompts user for keywords
         System.out.println("What is the title of the book you're looking for?");
         String searchTitle = input.nextLine();
 
-        // uses for loop to check
+        // uses for loop to check which books have titles that contain words from user input
         System.out.println("Here are books matching that title:");
         for (int i = 0; i < currentBookCount; i++) {
             Book book = library[i];
-            // checks
             if (book.getTitle().toLowerCase().contains(searchTitle.toLowerCase())) {
                 printBookInfo(book);
             }
@@ -218,14 +236,17 @@ public class NeighborhoodLibrary {
 
     }
 
+    // allows adding books to library
     public static void donateBook(Book[] library) {
 
+        // checks if the library is full by looking at currentBookCount and library size
         if (currentBookCount == library.length) {
             System.out.println("Sorry, the library is full.");
         }
         else {
             System.out.println("Thank you for donating a book! Let's get the book's information.");
 
+            // prompts user for title and ISBN of book
             System.out.println("What is the ISBN of the book?");
             String donatedIsbn = input.nextLine();
 
@@ -234,6 +255,7 @@ public class NeighborhoodLibrary {
 
             // adds the donated book to the library at the next available index
             library[currentBookCount] = new Book(currentBookCount + 10001, donatedIsbn, donatedTitle, false, "");
+            // updates currentBookCount
             currentBookCount++;
 
             System.out.println("Thank you for donating this book to the library!");
