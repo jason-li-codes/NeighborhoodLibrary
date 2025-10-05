@@ -13,29 +13,31 @@ public class NeighborhoodLibrary {
 
         Book[] library = new Book[30];
 
-        new Book(10001, "978-3-16-148410-0", "The Great Gatsby", false, "");
-        new Book(10002, "978-0-7432-7356-5", "1984", false, "");
-        new Book(10003, "978-0-452-28423-4", "To Kill a Mockingbird", false, "");
-        new Book(10004, "978-0-14-018739-6", "Moby Dick", false, "");
-        new Book(10005, "978-0-618-25376-9", "The Catcher in the Rye", true, "Alwin");
-        new Book(10006, "978-0-7432-7356-6", "The Odyssey", false, "");
-        new Book(10007, "978-0-14-243723-0", "Pride and Prejudice", false, "");
-        new Book(10008, "978-1-4028-9462-6", "Crime and Punishment", false, "");
-        new Book(10009, "978-1-4028-9470-1", "War and Peace", false, "");
-        new Book(10010, "978-0-14-312774-1", "The Brothers Karamazov", true, "Jazzy");
-        new Book(10011, "978-1-5011-0399-4", "The Alchemist", false, "");
-        new Book(10012, "978-0-451-52993-5", "Brave New World", true, "Ashley");
-        new Book(10013, "978-0-06-112241-5", "The Road", false, "");
-        new Book(10014, "978-0-385-53316-7", "The Shining", true, "Ahsan");
-        new Book(10015, "978-0-618-08769-7", "Frankenstein", false, "");
-        new Book(10016, "978-0-618-08770-3", "Dracula", false, "");
-        new Book(10017, "978-0-14-118776-1", "Heart of Darkness", true, "Harman");
+        library[0] = new Book(10001, "978-3-16-148410-0", "The Great Gatsby", false, "");
+        library[1] = new Book(10002, "978-0-7432-7356-5", "1984", false, "");
+        library[2] = new Book(10003, "978-0-452-28423-4", "To Kill a Mockingbird", false, "");
+        library[3] = new Book(10004, "978-0-14-018739-6", "Moby Dick", false, "");
+        library[4] = new Book(10005, "978-0-618-25376-9", "The Catcher in the Rye", true, "Alwin");
+        library[5] = new Book(10006, "978-0-7432-7356-6", "The Odyssey", false, "");
+        library[6] = new Book(10007, "978-0-14-243723-0", "Pride and Prejudice", false, "");
+        library[7] = new Book(10008, "978-1-4028-9462-6", "Crime and Punishment", false, "");
+        library[8] = new Book(10009, "978-1-4028-9470-1", "War and Peace", false, "");
+        library[9] = new Book(10010, "978-0-14-312774-1", "The Brothers Karamazov", true, "Jazzy");
+        library[10] = new Book(10011, "978-1-5011-0399-4", "The Alchemist", false, "");
+        library[11] = new Book(10012, "978-0-451-52993-5", "Brave New World", true, "Ashley");
+        library[12] = new Book(10013, "978-0-06-112241-5", "The Road", false, "");
+        library[13] = new Book(10014, "978-0-385-53316-7", "The Shining", true, "Ahsan");
+        library[14] = new Book(10015, "978-0-618-08769-7", "Frankenstein", false, "");
+        library[15] = new Book(10016, "978-0-618-08770-3", "Dracula", false, "");
+        library[16] = new Book(10017, "978-0-14-118776-1", "Heart of Darkness", true, "Harman");
 
         for (int i = 0; i < library.length; i++) {
-            if (Objects.equals(library[i].getTitle(), "")) {
+            if (library[i] != null) {
                 currentBookCount += 1;
             }
         }
+
+        System.out.println("THE LIBRARY IS OPEN.");
 
         boolean isRunning = true;
 
@@ -43,7 +45,6 @@ public class NeighborhoodLibrary {
 
             // prints out all user options
             System.out.println("""
-                    THE LIBRARY IS OPEN.
                     What would you like to do?
                     (1) Show all available books
                     (2) Show all checked out books
@@ -88,14 +89,14 @@ public class NeighborhoodLibrary {
 
     public static void printBookInfo(Book book) {
 
-        System.out.printf("%s (ID: %d, ISBN: %s, Checked out status: %b\n",
+        System.out.printf("%s (ID: %d, ISBN: %s, Checked out status: %b)\n",
                 book.getTitle(), book.getId(), book.getIsbn(), book.isCheckedOut());
 
     }
 
     public static void printBookInfoWithBorrower(Book book) {
 
-        System.out.printf("%s (ID: %d, ISBN: %s, Checked out by: %s",
+        System.out.printf("%s (ID: %d, ISBN: %s, Checked out by: %s\n",
                 book.getTitle(), book.getId(), book.getIsbn(), book.getCheckedOutTo());
 
     }
@@ -104,8 +105,9 @@ public class NeighborhoodLibrary {
 
         System.out.println("Here are all the books in the library: ");
         for (int i = 0; i < currentBookCount; i++) {
-            System.out.printf("Book #%d. ", i + 1);
-            printBookInfo(library[i]);
+            if (!library[i].isCheckedOut()) {
+                printBookInfo(library[i]);
+            }
         }
 
         boolean isRunning = true;
@@ -125,11 +127,11 @@ public class NeighborhoodLibrary {
                 System.out.println("What is the ID of the book you want to check out?");
                 int checkOutId = input.nextInt();
                 input.nextLine();
-                if (library[checkOutId-10001].isCheckedOut()) {
-                    System.out.println("That book is not available.");
-                }
-                else if (library[checkOutId-10001].getTitle() == null || 10001> checkOutId || checkOutId > 10030) {
+                if (10001 > checkOutId || checkOutId > 10030 || library[checkOutId-10001] == null) {
                     System.out.println("This book does not exist in our system.");
+                }
+                else if (library[checkOutId-10001].isCheckedOut()) {
+                    System.out.println("That book is not available.");
                 }
                 else {
                     System.out.println("What is your name?");
@@ -179,11 +181,11 @@ public class NeighborhoodLibrary {
                 System.out.println("What is the ID of the book you want to check in?");
                 int checkInId = input.nextInt();
                 input.nextLine();
-                if (!library[checkInId -10001].isCheckedOut()) {
-                    System.out.println("That book is not checked out.");
-                }
-                else if (library[checkInId -10001].getTitle() == null || 10001 > checkInId || checkInId > 10030) {
+                if (10001 > checkInId || checkInId > 10030 || library[checkInId -10001] == null) {
                     System.out.println("This book does not exist in our system.");
+                }
+                else if (!library[checkInId -10001].isCheckedOut()) {
+                    System.out.println("That book is not checked out.");
                 }
                 else {
                     library[checkInId -10001].checkIn();
@@ -219,19 +221,24 @@ public class NeighborhoodLibrary {
 
     public static void donateBook(Book[] library) {
 
-        System.out.println("Thank you for donating a book! Let's get the book's information.");
+        if (currentBookCount == library.length) {
+            System.out.println("Sorry, the library is full.");
+        }
+        else {
+            System.out.println("Thank you for donating a book! Let's get the book's information.");
 
-        System.out.println("What is the ISBN of the book?");
-        String donatedIsbn = input.nextLine();
+            System.out.println("What is the ISBN of the book?");
+            String donatedIsbn = input.nextLine();
 
-        System.out.println("What is the title of the book?");
-        String donatedTitle = input.nextLine();
+            System.out.println("What is the title of the book?");
+            String donatedTitle = input.nextLine();
 
-        // adds the donated book to the library at the next available index
-        library[currentBookCount] = new Book(currentBookCount + 10001, donatedIsbn, donatedTitle, false, "");
-        currentBookCount++;
+            // adds the donated book to the library at the next available index
+            library[currentBookCount] = new Book(currentBookCount + 10001, donatedIsbn, donatedTitle, false, "");
+            currentBookCount++;
 
-        System.out.println("Thank you for donating this book to the library!");
+            System.out.println("Thank you for donating this book to the library!");
+        }
 
     }
 
