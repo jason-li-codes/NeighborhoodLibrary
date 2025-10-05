@@ -217,6 +217,22 @@ public class NeighborhoodLibrary {
 
     }
 
+    public static void donateBook(Book[] library) {
 
+        System.out.println("Thank you for donating a book! Let's get the book's information.");
+
+        System.out.println("What is the ISBN of the book?");
+        String donatedIsbn = input.nextLine();
+
+        System.out.println("What is the title of the book?");
+        String donatedTitle = input.nextLine();
+
+        // adds the donated book to the library at the next available index
+        library[currentBookCount] = new Book(currentBookCount + 10001, donatedIsbn, donatedTitle, false, "");
+        currentBookCount++;
+
+        System.out.println("Thank you for donating this book to the library!");
+
+    }
 
 }
