@@ -1,6 +1,5 @@
 package com.pluralsight;
 
-import java.util.Objects;
 import java.util.Scanner;
 
 public class NeighborhoodLibrary {
@@ -31,8 +30,8 @@ public class NeighborhoodLibrary {
         library[15] = new Book(10016, "978-0-618-08770-3", "Dracula", false, "");
         library[16] = new Book(10017, "978-0-14-118776-1", "Heart of Darkness", true, "Harman");
 
-        for (int i = 0; i < library.length; i++) {
-            if (library[i] != null) {
+        for (Book book : library) {
+            if (book != null) {
                 currentBookCount += 1;
             }
         }
